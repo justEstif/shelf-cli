@@ -1,6 +1,6 @@
 # shelf-cli
 
-CLI client for [Shelf](https://github.com/justEstif/shelf), a self-hosted file sharing app for HTML artifacts.
+CLI client for [Shelf](https://github.com/justEstif/shelf), a self-hosted file sharing app.
 
 ## Install
 
@@ -10,23 +10,24 @@ go install github.com/justEstif/shelf-cli@latest
 
 ## Quick Start
 
-```
+```bash
 export SHELF_API_TOKEN=your-token
+export SHELF_URL=http://localhost:3000
 
 # Upload a file (URL copied to clipboard)
-shelf upload dist/index.html
+shelf upload report.html
 
-# Upload into a folder with public visibility
-shelf upload -f my-project -v public dist/index.html dist/app.js
+# Upload into a folder with protected visibility
+shelf upload -f docs -v protected report.html
 
 # List files
 shelf ls
 
 # Delete a file
-shelf rm my-project/old.html
+shelf rm docs/old.html
 
 # Open in browser
-shelf open my-project/index.html
+shelf open docs/report.html
 ```
 
 ## Commands
@@ -38,7 +39,7 @@ Upload one or more files. Prints the URL for each and copies the first to clipbo
 | Flag | Description |
 |------|-------------|
 | `-f, --folder` | Upload into a subfolder |
-| `-v, --visibility` | Set visibility: `public`, `private`, or `protected` |
+| `-v, --visibility` | Set visibility: `public` (default), `private`, or `protected` |
 
 Alias: `up`
 
@@ -54,12 +55,24 @@ List all files on the server.
 
 Open a file in your default browser.
 
+## Visibility
+
+Shelf supports per-file access control. Visibility is set with `-v` on upload:
+
+| Level | Meaning |
+|-------|---------|
+| `public` | Anyone with the link can view (default) |
+| `private` | Requires admin login |
+| `protected` | Requires a viewer password (configured via `SHELF_VIEWER_PASSWORD` on the server) |
+
+Visibility inherits from parent directories — setting a folder to `private` makes all files inside private unless overridden.
+
 ## Environment Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `SHELF_API_TOKEN` | Yes | — | API token from your Shelf instance |
-| `SHELF_URL` | No | `https://shelf.estifanos.cc` | Base URL of your Shelf server |
+| `SHELF_API_TOKEN` | Yes | — | API token from your Shelf admin dashboard |
+| `SHELF_URL` | No | `http://localhost:3000` | Base URL of your Shelf server |
 
 Both can also be passed as flags: `--token` and `--url`.
 

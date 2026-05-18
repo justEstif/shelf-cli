@@ -25,7 +25,7 @@ func Execute() error {
 		Short: "Upload and manage files on Shelf",
 	}
 
-	rootCmd.PersistentFlags().StringVar(&baseURL, "url", envDefault("SHELF_URL", "https://shelf.estifanos.cc"), "Shelf server URL")
+	rootCmd.PersistentFlags().StringVar(&baseURL, "url", envDefault("SHELF_URL", "http://localhost:3000"), "Shelf server URL")
 	rootCmd.PersistentFlags().StringVar(&token, "token", "", "API token (or SHELF_API_TOKEN env)")
 	if token == "" {
 		token = os.Getenv("SHELF_API_TOKEN")
