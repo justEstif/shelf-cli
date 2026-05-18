@@ -1,0 +1,6 @@
+# Binaries
+shelf
+*.exe
+*.dll
+*.so
+*.dylib
